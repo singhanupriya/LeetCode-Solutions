@@ -1,0 +1,46 @@
+class Solution {
+private:
+    int count=0;
+public:
+    
+    void sum(TreeNode* root, int data, int targetSum)
+    {
+        if(root ==NULL)
+        {
+            return;
+        }
+        data=data+(root->val);
+        if(root->left)
+        {
+            sum(root->left,data,targetSum);
+        }
+        if(root->right)
+        {
+            sum(root->right,data,targetSum);
+        }
+        
+        if(!(root->left) && (!root->right))
+        {
+            if(data==targetSum)
+            {
+                count++;
+            }
+        }
+        
+        
+    }
+    
+    
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        sum(root,0,targetSum);
+        if(count>0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+};
