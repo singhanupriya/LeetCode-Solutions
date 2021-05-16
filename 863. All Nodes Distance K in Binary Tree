@@ -1,0 +1,102 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<TreeNode*, TreeNode*> parent;
+    unordered_map<TreeNode*,int> visited;
+    
+    void find_parent(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left)
+        {
+            parent[root->left]=root;
+            visited[root->left]=0;
+            find_parent(root->left);
+        }
+        if(root->right)
+        {
+            parent[root->right]=root;
+            visited[root->right]=0;
+            find_parent(root->right);
+        }
+    }
+    
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        find_parent(root);
+        visited[root]=0;
+        parent[root]=NULL;
+        
+        vector<int> v;
+        
+        queue<TreeNode*> q;
+        
+        
+        q.push(target);
+        visited[target]=1;
+        
+        
+        while(!q.empty() && k!=0)
+        {
+            
+            int l=q.size();
+            
+            for(int i=0;i<l;i++)
+            {
+                TreeNode* curr=q.front();
+                q.pop();
+                
+                if(curr->left && visited[curr->left]==0)
+                {
+                    q.push(curr->left);
+                    visited[curr->left]=1;
+                }
+                
+                if(curr->right && visited[curr->right]==0)
+                {
+                    q.push(curr->right);
+                    visited[curr->right]=1;
+                }
+                
+                if(parent[curr] && visited[parent[curr]]==0)
+                {
+                    q.push(parent[curr]);
+                    visited[parent[curr]]=1;
+                }
+                
+                
+                
+                
+            }
+            k--;
+
+                
+            
+            
+        }
+        
+        
+        int q_size=q.size();
+        for(int i=0;i<q_size;i++)
+        {
+            v.push_back(q.front()->val);
+            q.pop();
+        }
+            
+        
+        return v;
+        
+        
+        
+    }
+};
