@@ -1,0 +1,107 @@
+//Count nodes in BST in a given range
+
+#include<iostream>
+
+#include<vector>
+
+using namespace std;
+
+class TreeNode{
+	public:
+		int val;
+		TreeNode* left;
+		TreeNode* right;
+		
+		TreeNode(int data)
+		{
+			val=data;
+		}
+};
+
+void count(TreeNode* root,int& ans, int start, int end)
+{
+	if(root==NULL)
+	{
+		return;
+	}
+	
+	if(root->val < end && root->val > start)
+	{
+		ans++;
+		if(root->left)
+		{
+			count(root->left,ans,start,end);
+		}
+		if(root->right)
+		{
+			count(root->right,ans,start,end);
+		}
+	}
+	
+	if(root->val <=start)
+	{
+		ans++;
+		
+		if(root->right)
+		{
+			count(root->right,ans,start,end);
+		}
+	}
+	
+	if(root->val >=end)
+	{
+		ans++;
+		if(root->left)
+		{
+			count(root->left,ans,start,end);
+		}
+		
+	}
+}
+
+
+
+
+
+int main()
+{
+	TreeNode* root=new TreeNode(40);
+	TreeNode* second=new TreeNode(20);
+	TreeNode* one=new TreeNode(50);
+	TreeNode* zero=new TreeNode(10);
+	TreeNode* four=new TreeNode(25);
+	TreeNode* five=new TreeNode(22);
+	TreeNode* six=new TreeNode(45);
+	TreeNode* seven=new TreeNode(70);
+	TreeNode* eight=new TreeNode(47);
+	
+	root->left=second;
+	root->right=one;
+	
+	
+	
+	second->left=zero;
+	second->right=five;
+	
+	four->left=five;
+	
+	one->left=six;
+	one->right=seven;
+	
+	six->right=eight;
+	
+	int start=20;
+	int end=60;
+	int res=0;
+	
+	count(root,res,start,end);
+	cout<<res;
+	
+	
+	
+
+	
+	
+	
+	return 0;
+}
