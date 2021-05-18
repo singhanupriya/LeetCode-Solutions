@@ -1,0 +1,99 @@
+/*Binary tree to BST
+
+1. Traverse the binary tree and retrieve the elements in vector
+2. Sort the elements as inorder of BST is sorted
+3. Inorder traversal of binary tree and replacing with elements in sorted vector
+
+
+*/
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+class TreeNode{
+	public:
+		int val;
+		TreeNode* left;
+		TreeNode* right;
+		
+		TreeNode(int data)
+		{
+			val=data;
+		}
+};
+
+void retrieve(TreeNode* root, vector<int> &v)
+{
+	if(root!=NULL)
+	{
+		retrieve(root->left,v);
+		v.push_back(root->val);
+		retrieve(root->right,v);
+		
+	}
+}
+
+void inorder(TreeNode* root)
+{
+	if(root!=NULL)
+	{
+		inorder(root->left);
+		cout<<root->val<<" ";
+		inorder(root->right);
+		
+	}
+}
+
+void conversion(TreeNode* root, vector<int> &v, int &i)
+{
+	
+	if(root!=NULL)
+	{
+		conversion(root->left,v,i);
+		root->val=v[i];
+		i++;
+		conversion(root->right,v,i);
+	}
+}
+
+
+int main()
+{
+	TreeNode* root=new TreeNode(28);
+	TreeNode* second=new TreeNode(22);
+	TreeNode* third=new TreeNode(30);
+	TreeNode* four=new TreeNode(17);
+	TreeNode* five=new TreeNode(25);
+	TreeNode* six=new TreeNode(32);
+	
+	
+	root->left=second;
+	root->right=third;
+	
+	second->left=four;
+	second->right=five;
+	
+	
+	third->right=six;
+	
+	vector<int> res;
+	retrieve(root,res);
+	
+	sort(res.begin(),res.end());
+	
+	int j=0;
+	conversion(root,res,j);
+	inorder(root);
+	
+	
+	
+	
+	
+	
+	
+	
+	return 0;
+}
