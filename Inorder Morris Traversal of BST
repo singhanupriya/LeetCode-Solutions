@@ -1,0 +1,85 @@
+#include<iostream>
+
+
+using namespace std;
+
+class TreeNode{
+	public:
+		int val;
+		TreeNode* left;
+		TreeNode* right;
+		
+		TreeNode(int data)
+		{
+			val=data;
+		}
+};
+
+void morris(TreeNode* root)
+{
+	
+	
+	//cout<<"i";
+	TreeNode* curr=root;
+	TreeNode* prev;
+	
+	while(curr!=NULL)
+	{
+		if(curr->left==NULL)
+		{
+			cout<<curr->val<<" ";
+			curr=curr->right;
+		}
+		
+		else
+		{
+			prev=curr->left;
+			while(prev->right!=NULL && prev->right!=curr)
+			{
+				prev=prev->right;
+			}
+			
+			if(prev->right==NULL)
+			{
+				prev->right=curr;
+				curr=curr->left;
+			}
+			else
+			{
+				cout<<curr->val<<" ";
+				prev->right=NULL;
+				curr=curr->right;
+			}
+		}
+		
+		
+	}
+	
+	
+	
+}
+
+
+
+int main()
+{
+	TreeNode* root=new TreeNode(8);
+	TreeNode* second=new TreeNode(5);
+	TreeNode* one=new TreeNode(1);
+	TreeNode* zero=new TreeNode(7);
+	TreeNode* four=new TreeNode(10);
+	TreeNode* five=new TreeNode(12);
+	
+	root->left=second;
+	root->right=four;
+	
+	second->left=one;
+	second->right=zero;
+	
+	four->right=five;
+	
+	morris(root);
+	
+	
+	return 0;
+}
