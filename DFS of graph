@@ -1,0 +1,65 @@
+//DFS traversal of a graph
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+
+
+using namespace std;
+
+void dfs_helper(unordered_map<int, vector<int>>& graph, int start, vector<int>& res, vector<bool>& visited)
+{
+	res.push_back(start);
+	visited[start]=1;
+	
+	for(int i=0;i<graph[start].size();i++)
+	{
+		if(visited[graph[start][i]]==0)
+		{
+			dfs_helper(graph,graph[start][i], res, visited);
+		}
+	}
+}
+
+vector<int> dfs(unordered_map<int, vector<int>>& graph, int start, vector<bool>& visited)
+{
+	vector<int> res;
+	dfs_helper(graph,start,res,visited);
+	return res;
+}
+
+
+int main()
+{
+	unordered_map<int,vector<int>> graph;
+	vector<bool> visited (6,0);
+	
+	
+	
+	
+	
+	graph[0]={1,5};
+	graph[1]={4,2};
+	graph[2]={5};
+	graph[3]={5};
+	graph[4]={3};
+	graph[5]={0};
+	
+	
+
+	
+	
+	
+	vector<int> ans=dfs(graph,0,visited);
+	
+	for(int i=0;i<ans.size();i++)
+	{
+		cout<<ans[i]<<" ";
+	}
+	
+	
+	
+	
+	
+	
+	return 0;
+}
