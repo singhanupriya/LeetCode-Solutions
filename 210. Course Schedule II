@@ -1,0 +1,71 @@
+class Solution {
+public:
+    unordered_map<int,vector<int>> adj;
+    
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        
+        vector<int> res;
+        
+        for(int i=0;i<prerequisites.size();i++)
+        {
+            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
+        }
+        
+        vector<int> indegree(numCourses,0);
+        
+        for(int i=0;i<numCourses;i++)
+        {
+            for(int j=0;j<adj[i].size();j++)
+            {
+                indegree[adj[i][j]]++;
+            }
+        }
+        
+        queue<int> q;
+        
+        int vertex_count=0;
+        
+        for(int i=0;i<indegree.size();i++)
+        {
+            if(indegree[i]==0)
+            {
+                q.push(i);
+                vertex_count++;
+           
+            }
+        }
+        
+        while(!q.empty())
+        {
+            int test=q.front();
+            res.push_back(test);
+            q.pop();
+            
+            for(int i=0;i<adj[test].size();i++)
+            {
+                indegree[adj[test][i]]--;
+                if(indegree[adj[test][i]]==0)
+                {
+                    q.push(adj[test][i]);
+                    vertex_count++;
+                }
+            }
+            
+            
+        }
+        
+        if(vertex_count!=numCourses)
+        {
+            vector<int> result;
+            return result;;
+            
+        }
+        
+        return res;
+        
+        
+        
+        
+        
+    }
+};
