@@ -1,0 +1,81 @@
+#include<iostream>
+#include<vector>
+#include <limits.h>
+
+using namespace std;
+
+void dij(vector<vector<int>> graph, int V, int src)
+{
+	vector<bool> process(5,0);
+	
+	
+	vector<int> dist(5,INT_MAX);
+	
+	dist[src]=0;
+	
+	for(int i=0;i<V-1;i++)
+	{
+		//cout<<"Iteration "<<i<<"\n";
+		int min_vertex=INT_MAX;
+		int min_vertex_index;
+		
+		for(int j=0;j<V;j++)
+		{
+			if(!process[j])
+			{
+				if(min_vertex>dist[j])
+				{
+					min_vertex=dist[j];
+					min_vertex_index=j;
+				}
+			}
+				
+		}
+		
+		process[min_vertex_index]=1;
+		
+		
+		
+		for(int u=0;u<V;u++)
+		{
+			if(!process[u] && graph[min_vertex_index][u]!=0 && graph[min_vertex_index][u]!=INT_MAX)
+			{
+				if(dist[u]> dist[min_vertex_index]+graph[min_vertex_index][u])
+				{
+					dist[u]= dist[min_vertex_index]+graph[min_vertex_index][u];
+				}
+			}
+		}
+		
+    	
+	}
+	
+	for(int i=0;i<V;i++)
+	{
+		cout<<dist[i]<<" ";
+	}
+	
+	
+}
+
+
+
+int main()
+{
+	vector<vector<int>> graph
+	{
+		{0,1,4,INT_MAX,INT_MAX},
+		{INT_MAX,0,2,4,INT_MAX},
+		{INT_MAX,INT_MAX,0,INT_MAX,4},
+		{INT_MAX,INT_MAX,INT_MAX,0,4},
+		{INT_MAX,INT_MAX,INT_MAX,INT_MAX,0},
+		
+	
+	};
+	
+	dij(graph,5,0);
+	
+	
+	
+	return 0;
+}
