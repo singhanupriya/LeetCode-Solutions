@@ -1,0 +1,83 @@
+//Bellman ford algorithm
+
+#include<iostream>
+#include<vector>
+#include<utility>
+#include<limits>
+
+using namespace std;
+
+void bellman(vector<vector<int>> graph,int V, int src)
+{
+	vector<int> d(V,INT_MAX);
+	d[src]=0;
+	vector<pair<int,int>> edgelist;
+	
+	for(int i=0;i<V;i++)
+	{
+		for(int j=0;j<V;j++)
+		{
+			if(graph[i][j]!=0 && graph[i][j]!=INT_MAX)
+			{
+				edgelist.push_back(make_pair(i,j));
+			}
+		}
+	}
+	
+	for(int i=0;i<V-1;i++)
+	{
+		for(int i=0;i<edgelist.size();i++)
+		{
+			int u=edgelist[i].first;
+			int v=edgelist[i].second;
+			
+			if(d[v] > d[u] + graph[u][v])
+			{
+				d[v] = d[u] + graph[u][v];
+			}
+		}
+	}
+	
+	
+	for(int i=0;i<edgelist.size();i++)
+	{
+		int u=edgelist[i].first;
+		int v=edgelist[i].second;
+			
+		if(d[v] > d[u] + graph[u][v])
+		{
+			cout<<"Negative cycle exists\n";
+			return;
+		}
+	}
+	
+	for(int i=0;i<d.size();i++)
+	{
+		cout<<d[i]<<" ";
+	}
+	
+	
+	
+	
+}
+
+
+int main()
+{
+	vector<vector<int>> graph;
+	
+	int V=5;
+	
+	graph={
+	{0,5,3,INT_MAX,INT_MAX},
+	{INT_MAX,0,INT_MAX,INT_MAX,4},
+	{INT_MAX,-2,0,1,INT_MAX},
+	{INT_MAX,INT_MAX,INT_MAX,0,4},
+	{INT_MAX,INT_MAX,INT_MAX,INT_MAX,0}
+	};
+	
+	bellman(graph,V,0);
+	
+	
+	return 0;
+}
