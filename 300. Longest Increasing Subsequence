@@ -1,0 +1,43 @@
+//O(n*2)
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        
+        int ans=1;
+        int n=nums.size();
+        
+        vector<int> dummy(n,1);
+        
+        
+        int i=0;
+        int j=1;
+        
+        while(j<n)
+        {
+            while(i<j)
+            {
+                if(nums[i]<nums[j])
+                {
+                    dummy[j]++;
+                    i++;
+                }
+                
+                
+            }
+            if(ans<dummy[j])
+            {
+                ans=dummy[j];
+            }
+            
+            i=0;
+            j++;
+            
+        }
+        
+        return ans;
+        
+    }
+};
+
+
