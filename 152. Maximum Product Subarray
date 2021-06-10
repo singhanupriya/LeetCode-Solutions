@@ -1,0 +1,66 @@
+class Solution {
+public:
+    
+    int min(int a,int b,int c)
+    {
+        if((a<=b) && (a<=c))
+        {
+            return a;
+        }
+        else if((b<=c) && (b<=a))
+        {
+            return b;
+        }
+        else
+        {
+            return c;
+        }
+    }
+    
+    int max(int a,int b,int c)
+    {
+        if((a>=b) && (a>=c))
+        {
+            return a;
+        }
+        else if((b>=c) && (b>=a))
+        {
+            return b;
+        }
+        else
+        {
+            return c;
+        }
+    }
+    
+    int maxProduct(vector<int>& nums) {
+        
+        int n=nums.size();
+        
+        int min_so_far=nums[0];
+        int max_so_far=nums[0];
+        
+        int ans=nums[0];
+        
+        for(int i=1;i<n;i++)
+        {
+            
+            int first=min_so_far*nums[i];
+            int second=nums[i];
+            int third=max_so_far*nums[i];
+            min_so_far=min(first,second,third);
+            max_so_far=max(first,second,third);
+            
+            if(ans<max_so_far)
+            {
+                ans=max_so_far;
+            }
+            
+        }
+        
+        return ans;
+        
+        
+        
+    }
+};
