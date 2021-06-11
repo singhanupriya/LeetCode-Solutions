@@ -1,0 +1,57 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        
+        int m=s.size()-1;
+        int start_ans;
+        int end_ans;
+        string ans;
+        
+        vector<vector<int>> dp(m+1,vector<int>(m+1));
+        
+        int k=0;
+        
+        for(int i=0;i<=m;i++)
+        {
+            dp[i][i]=1;
+            k=1;
+            start_ans=i;
+        }
+        
+        for(int i=0;i<m;i++)
+        {
+            if(s[i]==s[i+1])
+            {
+                dp[i][i+1]=1;
+                k=2;
+                start_ans=i;
+            }
+            
+        }
+        
+        
+        for(int j=2;j<=m;j++)
+        {
+            for(int i=j-2;i>=0;i--)
+            {
+                if(s[i]==s[j] && dp[i+1][j-1]==1)
+                {
+                    dp[i][j]=1;
+                    
+                    if(k<(j-i+1))
+                    {
+                        k=j-i+1;
+                        start_ans=i;
+                        end_ans=j;
+                    }
+                }
+                
+            }
+        }
+        
+        
+        ans=s.substr(start_ans,k);
+        return ans;
+        
+    }
+};
