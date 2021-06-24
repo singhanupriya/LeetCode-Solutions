@@ -1,0 +1,55 @@
+//Graph coloring
+
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+
+using namespace std;
+
+
+int main()
+{
+	unordered_map<int,vector<int>> graph;
+	
+	graph[0]={1,2};
+	graph[1]={0,2,3};
+	graph[2]={1,0,3};
+	graph[3]={1,2,4};
+	graph[4]={3};
+	
+	int v=5;
+	
+	vector<int> mapping(v,-1);
+	
+	mapping[0]=0; //color the first vertex
+	
+	for(int i=1;i<v;i++)
+	{
+		vector<bool> color(v,0);   //reset color vector for every iteration
+		
+		for(int j=0;j<graph[i].size();j++)   //iterate through the adjacent vertex and mark their color as true 
+		{
+			if(mapping[graph[i][j]]!=-1)
+			{
+				color[mapping[graph[i][j]]]=1;    
+			}
+		}
+		
+		for(int x=0;x<v;x++)   //iterate through the coloe array again and assign the first color that has not been assigned
+		{
+			if(color[x]==0)
+			{
+				mapping[i]=x;
+				break;
+			}
+		}
+	}
+	
+	for(int i=0;i<v;i++)
+	{
+		cout<<"Vertex "<<i<<" color "<<mapping[i]<<"\n";
+	}
+	
+	
+	return 0;
+}
