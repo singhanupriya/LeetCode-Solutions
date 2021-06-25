@@ -1,0 +1,60 @@
+//https://practice.geeksforgeeks.org/problems/pair-with-greatest-product-in-array3342/1#
+
+class Solution{
+    public:
+        
+    int findGreatest(int arr[], int n)
+    {
+        unordered_map<int,int> m;
+        for(int i=0;i<n;i++)
+        {
+            m[arr[i]]++;
+        }
+        
+        sort(arr,arr+n);
+        
+        int j=n-1;
+        while(j>=0)
+        {
+            
+            for(int i=1;i*i<=arr[j];i++)
+            {
+                if(arr[j]%i==0 && i*i!=arr[j])
+                {
+                    if(m[i]!=0 && m[arr[j]/i]!=0)
+                    {
+                        if(arr[j]/i==arr[j])
+                        {
+                            if(m[arr[j]/i]>1)
+                            {
+                                return arr[j];
+                            }
+                        }
+                        else
+                        {
+                            return arr[j];
+                        }
+                        
+                    }
+                }
+                
+                if(i*i==arr[j])
+                {
+                    if(m[i]>=2)
+                    {
+                        return arr[j];
+                    }
+                }
+                
+                
+                
+            }
+            j--;
+            
+            
+        }
+        
+        return -1;
+        
+    }
+};
