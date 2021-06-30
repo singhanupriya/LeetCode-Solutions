@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int lengthOfLongestSubstringKDistinct(string s, int k) {
+        
+        int i=0,j=0,max=0;
+        
+        int n=s.length();
+        unordered_map<char,int> m;
+        
+        while(j<n)
+        {
+            m[s[j]]++;
+            
+            if(m.size()<=k)
+            {
+                if(max<j-i+1)
+                {
+                    max=j-i+1;
+                }
+            }
+            else
+            {
+                while(m.size()>k)
+                {
+                    m[s[i]]--;
+                    if(m[s[i]]==0)
+                    {
+                        m.erase(s[i]);
+                    }
+                    i++;
+                }
+            }
+            
+            if(m.size()<=k)
+            {
+                if(max<j-i+1)
+                {
+                    max=j-i+1;
+                }
+            }
+            
+            j++;
+            
+            
+            
+        }
+        
+        return max;
+        
+    }
+};
