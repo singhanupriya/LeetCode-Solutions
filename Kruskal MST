@@ -1,0 +1,171 @@
+#include<iostream>
+#include<set>
+#include<vector>
+
+using namespace std;
+
+class Disjoint{
+	
+	
+	
+	public:
+	    int* parent;
+    	int* rank;
+	
+		
+		
+		
+		Disjoint(int V)
+		{
+		
+			
+			parent=new int[V];
+			rank=new int[V];
+			
+			
+			for(int i=0;i<V;i++)
+			{
+				*(parent+i)=i;
+			}
+			
+			for(int i=0;i<V;i++)
+			{
+				*(rank+i)=0;
+			}
+			
+			cout<<"Initial Parent array:\n";
+			for(int i=0;i<V;i++)
+        	{
+        	    cout<<parent[i]<<" ";
+        	}
+        	cout<<"\n";
+		}
+		
+		int find_set(int u)
+		{
+			//cout<<parent[u]<<" "<<u<<"\n";
+			if(parent[u]==u)
+			{
+				return u;
+			}
+			
+			return parent[u]=find_set(parent[u]);
+		}
+		
+		void union_set(int u,int v)
+		{
+			int set_u=find_set(u);
+			
+			int set_v=find_set(v);
+			
+			
+			if(rank[set_u]==rank[set_v])
+			{
+				parent[set_u]=set_v;
+				rank[set_v]++;
+			}
+			else if(rank[set_u]<rank[set_v])
+			{
+				parent[set_u]=set_v;
+			}
+			else
+			{
+				parent[set_v]=u;
+			}
+		}
+	
+	
+};
+
+void krushkal(int V, int E, vector<vector<int>> adj)
+{
+	Disjoint d(V);
+	
+	set<pair<int,pair<int,int>>> s;   //Create a set to store egdes in asc order
+	
+	vector<pair<int,pair<int,int>>> result;  //resultant vector with min edges
+	
+	
+	//Add the edges in the set, set stores data in ascending order
+	
+	for(int i=0;i<V;i++)
+	{
+		for(int j=i;j<V;j++)
+		{
+			if(adj[i][j]!=0)
+			{
+				s.insert(make_pair(adj[i][j],make_pair(i,j)));
+			}
+		}
+	}
+	
+	
+	//Elements of the set
+	
+	cout<<"Elements of the set: \n";
+	for(auto it:s)
+	{
+		cout<<it.first<<" "<<it.second.first<<" "<<it.second.second<<"\n";
+	}
+	
+	cout<<"--------------\n";
+	
+	int count=0;
+	
+	set<pair<int,pair<int,int>>>::iterator it=s.begin();
+	
+	while(count<V-1 && it!=s.end())  //iterate thru the set and stop when (V-1) edges
+	{
+		int u=(it->second).first;
+		int v=(it->second).second;
+		//cout<<u <<" "<<v<<"\n";
+		
+		int set_u=d.find_set(u);
+		int set_v=d.find_set(v);
+		
+		if(set_u!=set_v)   //If they are in different sets cycle is not formed
+		{
+			result.push_back(make_pair(it->first,make_pair(u,v)));
+			d.union_set(u,v);    //Create an edge between them and add in the same set
+			count++;
+		}
+		
+		it++;
+		
+	}
+	
+	//Print resultant vector
+	
+	cout<<"Min spanning tree:\n";
+	int cost=0;
+	for(auto it:result)
+	{
+		cost=cost+it.first;
+		cout<<it.first<<" "<<it.second.first<<" "<<it.second.second<<"\n";
+	}
+	
+	cout<<"Cost"<<cost;
+	
+	
+}
+
+int main()
+{
+	
+	int v=4;
+	int E=5;
+	
+	vector<vector<int>> adj={
+		{0,10,6,5},
+		{10,0,0,15},
+		{6,0,0,4},
+		{5,15,4,0}
+	};
+	
+	krushkal(v,E,adj);
+	
+	
+	
+	
+	return 0;
+}
