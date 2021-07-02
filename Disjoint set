@@ -1,0 +1,97 @@
+#include<iostream>
+#include<set>
+#include<vector>
+
+using namespace std;
+
+class Disjoint{
+	
+	
+	
+	public:
+	    int* parent;
+    	int* rank;
+	
+		
+		
+		
+		Disjoint(int V)
+		{
+		
+			
+			parent=new int[V];
+			rank=new int[V];
+			
+			
+			for(int i=0;i<V;i++)
+			{
+				*(parent+i)=i;
+			}
+			
+			for(int i=0;i<V;i++)
+			{
+				*(rank+i)=0;
+			}
+			for(int i=0;i<V;i++)
+        	{
+        	    cout<<parent[i];
+        	}
+        	cout<<"\n";
+		}
+		
+		int find_set(int u)
+		{
+			//cout<<parent[u]<<" "<<u<<"\n";
+			if(parent[u]==u)
+			{
+				return u;
+			}
+			
+			return parent[u]=find_set(parent[u]);
+		}
+		
+		void union_set(int u,int v)
+		{
+			int set_u=find_set(u);
+			
+			int set_v=find_set(v);
+			
+			
+			if(rank[set_u]==rank[set_v])
+			{
+				parent[set_u]=set_v;
+				rank[set_v]++;
+			}
+			else if(rank[set_u]<rank[set_v])
+			{
+				parent[set_u]=set_v;
+			}
+			else
+			{
+				parent[set_v]=u;
+			}
+		}
+	
+	
+};
+
+int main()
+{
+	
+	int v=5;
+	Disjoint d(5);
+	d.union_set(1,2);
+	
+	d.union_set(4,3);
+	d.union_set(2,3);
+	cout<<d.find_set(1)<<"\n";
+	for(int i=0;i<v;i++)
+    {
+       cout<<d.parent[i];
+    }
+	
+	
+	
+	
+	return 0;
+}
