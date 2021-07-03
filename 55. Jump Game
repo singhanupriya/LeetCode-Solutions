@@ -1,0 +1,56 @@
+class Solution {
+public:
+    int max(int a,int b)
+    {
+        if(a>=b)
+        {
+            return a;
+        }
+        return b;
+    }
+    
+    bool canJump(vector<int>& nums) {
+        
+        int n=nums.size();
+        
+        if(n<=1)
+        {
+            return true;
+        }
+        
+        if(nums[0]==0)
+        {
+            return false;
+            
+        }
+        
+        int max_index=nums[0];
+        int steps=nums[0];
+        int jump=1;
+        
+        for(int i=1;i<n;i++)
+        {
+            if(i==n-1)
+            {
+                return true;
+            }
+            
+            max_index=max(max_index,i+nums[i]);
+            steps--;
+            
+            if(steps==0)
+            {
+                jump++;
+                
+                if(i>=max_index)
+                {
+                    return false;
+                }
+                steps=max_index-i;
+            }
+        }
+        
+        return false;
+        
+    }
+};
