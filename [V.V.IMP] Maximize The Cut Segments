@@ -1,0 +1,129 @@
+//Maximize The Cut Segments : https://practice.geeksforgeeks.org/problems/cutted-segments1642/1#
+
+Method 1: Memoization
+class Solution
+{
+    public:
+    
+    int max(int a,int b)
+    {
+        if(a>=b)
+        {
+            return a;
+        }
+        return b;
+    }
+    
+    int helper(int i,int x,int y,int z,vector<int>& dp)
+    {
+        
+        
+        if(i==0)
+        {
+            return 0;
+        }
+        
+        if(dp[i]!=-1)
+        {
+            return dp[i];
+        }
+        
+        int op1=INT_MIN, op2=INT_MIN, op3=INT_MIN;
+        
+        if(x<=i)
+        {
+            op1=1+helper(i-x,x,y,z,dp);
+        }
+        if(y<=i)
+        {
+            op2=1+helper(i-y,x,y,z,dp);
+        }
+        if(z<=i)
+        {
+            op3=1+helper(i-z,x,y,z,dp);
+        }
+        
+        return dp[i]=max(op1,max(op2,op3));
+        
+        
+        
+    }
+    
+    
+    //Function to find the maximum number of cuts.
+    int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        if(n==0)
+        {
+            return 0;
+        }
+        
+        vector<int> dp(n+1,-1);
+        dp[0]=0;
+        
+        int ans= helper(n,x,y,z,dp);
+        if(ans<0)
+        {
+            return 0;
+        }
+        return ans;
+        
+    }
+    
+    
+    
+    Method II: DP
+    
+    class Solution
+{
+    public:
+    
+    int max(int a,int b)
+    {
+        if(a>=b)
+        {
+            return a;
+        }
+        return b;
+    }
+    
+    
+    
+    
+    //Function to find the maximum number of cuts.
+    int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        if(n==0)
+            return 0;
+            
+        vector<int> dp(n+1,-1);
+        
+        //length is 0, 0 cuts needed
+        dp[0]=0;
+        
+        for(int i=1;i<=n;i++)
+        {
+            //first cut part of length x thn check if remaining (i-x) part can be cut with the given combination of lengths
+            if(x<=i && (dp[i-x]!=-1))
+            {
+                dp[i]=max(1+dp[i-x],dp[i]);
+            }
+            if(y<=i && (dp[i-y]!=-1))
+            {
+                dp[i]=max(1+dp[i-y],dp[i]);
+            }
+            
+            if(z<=i && (dp[i-z]!=-1))
+            {
+                dp[i]=max(1+dp[i-z],dp[i]);
+            }
+        }
+        
+        if(dp[n]<0)
+        {
+            return 0;
+        }
+        return dp[n];
+        
+    }
+};
