@@ -1,0 +1,91 @@
+//Coin change:https://www.geeksforgeeks.org/coin-change-dp-7/
+
+Recursive
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int count(int N, vector<int> arr, int m)
+{
+	if(N==0)
+	{
+		return 1;
+	}
+	
+	if(N<0 || m==0)
+	{
+		return 0;
+	}
+	
+	if(arr[m-1]<=N)
+	{
+    //  include + exclude
+		return count(N-arr[m-1],arr,m) + count(N,arr,m-1);
+	}
+	else
+	{
+		return count(N,arr,m-1);
+	}
+	
+	
+}
+
+int main()
+{
+	vector<int> arr={1,2,3};
+	cout<<count(4,arr,3);
+	
+	return 0;
+}
+
+
+Iterative
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int count(int N, vector<int> arr, int m)
+{
+	vector<vector<int>> dp(m+1,vector<int>(N+1,0));
+	
+	for(int i=0;i<=m;i++)
+	{
+		dp[i][0]=1;
+	}
+	
+	for(int i=1;i<=m;i++)
+	{
+		for(int j=1;j<=N;j++)
+		{
+			if(arr[i-1]<=j)
+			{
+				//include + exclude
+				dp[i][j]=dp[i][j-arr[i-1]] + dp[i-1][j];
+			}
+			else
+			{
+				dp[i][j]=dp[i-1][j];
+			}
+		}
+	}
+	
+	return dp[m][N];
+	
+	
+}
+
+int main()
+{
+	vector<int> arr={2,5,3,6};
+	cout<<count(10,arr,4);
+	
+	return 0;
+}
+
+
+
+
